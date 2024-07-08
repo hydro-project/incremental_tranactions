@@ -58,6 +58,12 @@ RUN ARCH=`dpkg --print-architecture`; \
 RUN \
    pip3 install gdown kafka-python
 
+# Dependencies for drawing circuits
+RUN sudo apt-get -y install graphviz
+
+# Make sudo passwordless
+RUN echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/$USERNAME
+
 ## Switch to non-root user
 
 USER $USERNAME
@@ -81,9 +87,3 @@ RUN \
    cargo install cargo-make
 
 ENV PATH="$HOME/.local/bin:$PATH"
-
-# Make sudo passwordless
-RUN echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USERNAME
-
-# Dependencies for drawing circuits
-RUN sudo apt-get -y install graphviz
