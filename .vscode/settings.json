@@ -24,5 +24,6 @@
     "editor.formatOnSave": true,
     "files.trimTrailingWhitespace": true,
     "prettier.requireConfig": true,
-    "rust-analyzer.showUnlinkedFileNotification": false
+    "rust-analyzer.showUnlinkedFileNotification": false,
+    "java.compile.nullAnalysis.mode": "disabled"
 }

@@ -81,3 +81,6 @@ RUN \
    cargo install cargo-make
 
 ENV PATH="$HOME/.local/bin:$PATH"
+
+# Make sudo passwordless
+RUN echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USERNAME

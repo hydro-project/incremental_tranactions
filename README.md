@@ -1,3 +1,26 @@
+# Incremental Transactions
+
+We are building our prototypes with the source of Feldera to piggyback their setup.
+
+Setup:
+- Compile the sql-to-dbsp compiler: `cd sql-to-dbsp-compiler && mvn -DskipTests package`
+
+General flow to use DBSP:
+- Create folder for new crate and create a `Cargo.toml` based on [`Cargo.template.toml`](./incremental_transactions/Cargo.template.toml)
+- Add your crate to the root [`Cargo.toml`](./Cargo.toml)
+- Create SQL file with schemata of base relations and views
+- Compile SQL to Rust DBSP: Copy [`generate_dbsp.sh`](./incremental_transactions/generate_dbsp.sh) and input your SQL as well as Rust output files
+- Add add rust module of generated file to lib.rs
+- `use ...` the rust module and invoke the circuit in your rust code
+- When generating several circuits, remove the Rust code concerning the global allocator "and malloc_conf" for all but one file.
+
+See [./incremental_transaction/people_example](./incremental_transaction/people_example) as an example.
+
+Our prototypes are in the directory [./incremental_transactions](./incremental_transactions).
+See further details in the READMEs of that directory.
+
+[Official documentation of the compilation process](https://www.feldera.com/docs/contributors/compiler/)
+
 # The Feldera Continuous Analytics Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)

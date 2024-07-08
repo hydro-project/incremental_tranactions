@@ -8,6 +8,7 @@ members = [
   "sql-to-dbsp-compiler/lib/json",
   "sql-to-dbsp-compiler/lib/readers",
   "sql-to-dbsp-compiler/lib/sqllib",
+  "incremental_transactions/people_example",
 ]
 exclude = ["sql-to-dbsp-compiler/temp"]
 resolver = "2"
