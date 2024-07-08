@@ -1,7 +1,5 @@
 #/bin/bash
 
-# TODO: Maybe convert this into a build.rs file
-
 THIS_ABS_DIR=$(cd $(dirname $0) && pwd)
 
 SQL_COMPILER="${THIS_ABS_DIR}/../../sql-to-dbsp-compiler/SQL-compiler/sql-to-dbsp"
@@ -21,6 +19,9 @@ compile() {
     # Concatenate the schema and payment files on the fly and hand to the compiler
     args="--alltables --handles ${DO_INCREMENTAL}"
     ${SQL_COMPILER} <(cat "${SCHEMA}" "${VIEWS_FILE}") ${args} -o ${OUTPUT}
+    # TODO: Remove the allocator code from the output
+
+    # Draw the graph if the parameter is set and 1
     if [ -z "${4}" ] || [ "${4}" == "1" ] ; then
         ${SQL_COMPILER} <(cat "${SCHEMA}" "${VIEWS_FILE}") ${args} -png -o ${OUTPUT}.png
     fi
@@ -37,7 +38,5 @@ compile() {
     echo "${rust_code}" > "${OUTPUT}.handles.txt"
 }
 
-# XXX:
-# Specify your SQL file and rust output file here,
-# whether the circuit should be incremental and you want to draw the graph
-compile "${THIS_ABS_DIR}/sql/... .sql" "${THIS_ABS_DIR}/src/... .rs" [incremental: 0/1] [draw_graph: 0/1]
+compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql.rs" 0 1
+compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql_incremental.rs" 1 1
