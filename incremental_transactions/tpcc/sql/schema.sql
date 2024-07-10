@@ -116,3 +116,16 @@ CREATE TABLE customer (
     PRIMARY KEY (c_w_id, c_d_id, c_id),
     FOREIGN KEY (c_w_id, c_d_id) REFERENCES district(d_w_id, d_id)
 );
+
+-- Make transaction parameters a table to join against
+CREATE TABLE transaction_parameters (
+    txn_id INT PRIMARY KEY,
+    w_id INT,
+    d_id INT,
+    c_id INT,
+    c_w_id INT,
+    c_d_id INT,
+    h_amount DECIMAL(5,2),
+    h_date TIMESTAMP,
+    datetime_ TIMESTAMP
+);

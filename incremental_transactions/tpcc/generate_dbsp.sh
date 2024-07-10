@@ -11,6 +11,9 @@ compile() {
     local OUTPUT="${2}"
     local DO_INCREMENTAL="-i"
 
+    local OUTPUT_DIR=$(dirname "${OUTPUT}")
+    local BASE_FILE=$(basename "${OUTPUT}")
+
     # Check if parameter is set and 1
     if [ -z "${3}" ] || [ "${3}" == "0" ] ; then
         local DO_INCREMENTAL=""
@@ -23,7 +26,7 @@ compile() {
 
     # Draw the graph if the parameter is set and 1
     if [ -z "${4}" ] || [ "${4}" == "1" ] ; then
-        ${SQL_COMPILER} <(cat "${SCHEMA}" "${VIEWS_FILE}") ${args} -png -o ${OUTPUT}.png
+        ${SQL_COMPILER} <(cat "${SCHEMA}" "${VIEWS_FILE}") ${args} -png -o "${OUTPUT_DIR}/../graphs/${BASE_FILE}.png"
     fi
 
     # Create a brief description of the returned handles
@@ -35,8 +38,10 @@ compile() {
 
     ## Format as rust tuple with named elements, with prefix in_ and out_
     rust_code="(`echo ${input_handles} | sed 's/ /, /g'`, `echo ${output_handles} | sed 's/ /, /g'`)"
-    echo "${rust_code}" > "${OUTPUT}.handles.txt"
+    echo "${rust_code}" > "${OUTPUT_DIR}/../handles/${BASE_FILE}.handles.txt"
 }
 
 compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql.rs" 0 1
 compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql_incremental.rs" 1 1
+compile "${THIS_ABS_DIR}/sql/warehouse_ytd.sql" "${THIS_ABS_DIR}/src/warehouse_ytd_sql.rs" 0 1
+compile "${THIS_ABS_DIR}/sql/warehouse_ytd.sql" "${THIS_ABS_DIR}/src/warehouse_ytd_sql_incremental.rs" 1 1

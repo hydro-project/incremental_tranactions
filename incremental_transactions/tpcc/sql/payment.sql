@@ -1,16 +1,4 @@
 -- gettimestamp(datetime);
--- Make transaction parameters a table to join against
-CREATE TABLE transaction_parameters (
-    txn_id INT PRIMARY KEY,
-    w_id INT,
-    d_id INT,
-    c_id INT,
-    c_w_id INT,
-    c_d_id INT,
-    h_amount DECIMAL(5,2),
-    h_date TIMESTAMP,
-    datetime_ TIMESTAMP
-);
 
 /* UPDATE warehouse SET w_ytd = w_ytd + :h_amount
 WHERE w_id=:w_id; */
