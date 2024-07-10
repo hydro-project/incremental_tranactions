@@ -3,6 +3,8 @@
 THIS_ABS_DIR=$(cd $(dirname $0) && pwd)
 
 SQL_COMPILER="${THIS_ABS_DIR}/../../sql-to-dbsp-compiler/SQL-compiler/sql-to-dbsp"
+# ${SQL_COMPILER} --help
+# exit 0
 
 # Usage: compile <views file> <output file> [do_incremental] [draw_graph]
 compile() {
@@ -16,6 +18,8 @@ compile() {
         local DO_INCREMENTAL=""
     fi
 
+    # [BIG_QUERY, ORACLE, MYSQL, MYSQL_ANSI, SQL_SERVER, JAVA]
+    # big_query oracle mysql
     # Concatenate the schema and payment files on the fly and hand to the compiler
     args="--alltables --handles ${DO_INCREMENTAL}"
     ${SQL_COMPILER} <(cat "${SCHEMA}" "${VIEWS_FILE}") ${args} -o ${OUTPUT}
@@ -38,5 +42,7 @@ compile() {
     echo "${rust_code}" > "${OUTPUT}.handles.txt"
 }
 
-compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql.rs" 0 1
-compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql_incremental.rs" 1 1
+# compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql.rs" 0 1
+# compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql_incremental.rs" 1 1
+compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql.rs" 0 1
+compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql_incremental.rs" 1 1
