@@ -269,7 +269,7 @@ pub fn circuit(cconf: CircuitConfig) -> Result<(DBSPHandle, (ZSetHandle<Tup8<Opt
         Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>> {
             Tup14::new((*t_18).3.clone().clone(), (*t_18).4.clone().clone(), (*t_18).0, (*t_18).6.clone().clone(), (*t_18).7.clone().clone(), (*t_18).8.clone().clone(), (*t_18).9.clone().clone(), (*t_18).10.clone().clone(), (*t_18).11.clone().clone(), (*t_18).13.clone().clone(), (*t_18).14.clone().clone(), (*t_18).15.clone().clone(), (*t_18).16.clone().clone(), (*t_18).12)
         });
-        // CREATE VIEW `CUST_MED` AS
+        // CREATE VIEW `CUST_BYNAME` AS
         // SELECT `C`.`C_FIRST`, `C`.`C_MIDDLE`, `C`.`C_ID`, `C`.`C_STREET_1`, `C`.`C_STREET_2`, `C`.`C_CITY`, `C`.`C_STATE`, `C`.`C_ZIP`, `C`.`C_PHONE`, `C`.`C_CREDIT`, `C`.`C_CREDIT_LIM`, `C`.`C_DISCOUNT`, `C`.`C_BALANCE`, `C`.`C_SINCE`
         // FROM `schema`.`CUSTOMER` AS `C`,
         // `schema`.`CUST_AGG` AS `A`,

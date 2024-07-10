@@ -73,4 +73,49 @@ mod test {
 
         circuit.step().unwrap();
     }
+
+    #[test]
+    fn test_byname_sql() {
+        let cconf = CircuitConfig::with_workers(1);
+        let (mut circuit, handles) = byname_sql::circuit(cconf).unwrap();
+        let (
+            in_warehouse_static,
+            in_warehouse,
+            in_district_static,
+            in_district_next_id,
+            in_district_ytd,
+            in_customer,
+            in_transaction_parameters,
+            out_cust_agg,
+            out_cust_byname,
+        ) = handles;
+        in_customer.push(
+            (
+                Some(1),
+                Some(43),
+                Some(44),
+                Some("Alice"),
+                Some("Q"),
+                Some("Public"),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            )
+                .into(),
+            1,
+        );
+
+        circuit.step().unwrap();
+    }
 }
