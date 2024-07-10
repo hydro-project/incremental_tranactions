@@ -9789,6 +9789,7 @@ version = "0.1.0"
 dependencies = [
  "chrono 0.4.38",
  "compare",
+ "criterion",
  "dbsp",
  "dbsp_adapters",
  "derive_more",
@@ -9799,6 +9800,7 @@ dependencies = [
  "num",
  "paste",
  "pipeline_types",
+ "pprof",
  "readers",
  "rkyv",
  "rust_decimal",

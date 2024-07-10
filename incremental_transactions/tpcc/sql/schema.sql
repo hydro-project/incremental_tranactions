@@ -125,7 +125,7 @@ CREATE TABLE transaction_parameters (
     c_id INT,
     c_w_id INT,
     c_d_id INT,
-    c_last VARCHAR(20), -- TODO check
+    c_last VARCHAR(16),
     h_amount DECIMAL(5,2),
     h_date TIMESTAMP,
     datetime_ TIMESTAMP

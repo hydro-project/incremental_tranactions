@@ -11,7 +11,7 @@
 --   AND c.c_d_id = t.c_d_id
 --   AND c.c_w_id = t.c_w_id;
 
-CREATE VIEW cust_enum AS
+CREATE VIEW cust_max_order_by AS
 SELECT c.c_first, c.c_middle, c.c_id,
     c.c_street_1, c.c_street_2, c.c_city, c.c_state, c.c_zip,
     c.c_phone, c.c_credit, c.c_credit_lim,
@@ -21,10 +21,10 @@ FROM customer AS c,
 WHERE c.c_last = t.c_last
   AND c.c_d_id = t.c_d_id
   AND c.c_w_id = t.c_w_id
-ORDER BY c_first
+ORDER BY c_first DESC
 LIMIT 1;
 
-create view cust_max as
+/* create view cust_max as
 SELECT c.c_first, c.c_middle, c.c_id,
     c.c_street_1, c.c_street_2, c.c_city, c.c_state, c.c_zip,
     c.c_phone, c.c_credit, c.c_credit_lim,
@@ -35,7 +35,7 @@ WHERE c.c_last = t.c_last
   AND c.c_d_id = t.c_d_id
   AND c.c_w_id = t.c_w_id
   AND c_first = (select max(c_first) from customer LIMIT 1)
-LIMIT 1;
+LIMIT 1; */
 
 -- CREATE VIEW cust_max AS
 -- SELECT c_first, c_last

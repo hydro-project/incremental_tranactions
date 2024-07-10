@@ -34,10 +34,16 @@ hashing = { path = "../../sql-to-dbsp-compiler/lib/hashing" }
 readers = { path = "../../sql-to-dbsp-compiler/lib/readers" }
 sqlx = { version = "0.6", features = ["runtime-async-std-native-tls", "sqlite", "any"] }
 uuid = { version = "1.6.1" }
+criterion = "0.5.1"
+pprof = { version = "0.13.0", features = ["flamegraph", "criterion"] }
 
 [lib]
 path = "src/lib.rs"
 doctest = false
+
+[[bench]]
+name = "byname"
+harness = false
 
 # Covered by root Cargo.toml
 ## Incremental builds sometimes crash the Rust compiler

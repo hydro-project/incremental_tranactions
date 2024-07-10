@@ -6,6 +6,20 @@ SQL_COMPILER="${THIS_ABS_DIR}/../../sql-to-dbsp-compiler/SQL-compiler/sql-to-dbs
 # ${SQL_COMPILER} --help
 # exit 0
 
+# Remove the allocator code from the output
+# Note: This removes only the exact lines, so if the format changes, this will not work
+# Usage: remove_allocator <file>
+remove_allocator() {
+    local FILE="${1}"
+
+    sed -i -e '/#\[cfg(not(target_env = "msvc"))\]$/d' \
+        -e '/\[global_allocator\]$/d' \
+        -e '/static ALLOC: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;/d' \
+        -e '/#\[allow(non_upper_case_globals)\]/d' \
+        -e '/#\[export_name = "malloc_conf"\]/d' \
+        -e '/pub static malloc_conf: &\[u8\] = b"prof:true,prof_active:true,lg_prof_sample:19\\0";/d' "${FILE}"
+}
+
 # Usage: compile <views file> <output file> [do_incremental] [draw_graph]
 compile() {
     local SCHEMA="${THIS_ABS_DIR}/sql/schema.sql"
@@ -26,7 +40,8 @@ compile() {
     # Concatenate the schema and payment files on the fly and hand to the compiler
     args="--alltables --handles ${DO_INCREMENTAL}"
     ${SQL_COMPILER} <(cat "${SCHEMA}" "${VIEWS_FILE}") ${args} -o ${OUTPUT}
-    # TODO: Remove the allocator code from the output
+    # Remove the allocator code from the output
+    remove_allocator "${OUTPUT}"
 
     # Draw the graph if the parameter is set and 1
     if [ -z "${4}" ] || [ "${4}" == "1" ] ; then
