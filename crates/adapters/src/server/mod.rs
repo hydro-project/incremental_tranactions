@@ -22,6 +22,8 @@ use colored::Colorize;
 use dbsp::circuit::CircuitConfig;
 use dbsp::operator::sample::MAX_QUANTILES;
 use env_logger::Env;
+use log::{debug, error, info, warn};
+use minitrace::collector::Config;
 use pipeline_types::{format::json::JsonFlavor, transport::http::EgressMode};
 use pipeline_types::{query::OutputQuery, transport::http::SERVER_PORT_FILE};
 use serde::Deserialize;
@@ -44,7 +46,6 @@ use tokio::{
         oneshot,
     },
 };
-use tracing::{debug, error, info, warn};
 use uuid::Uuid;
 
 pub mod error;
@@ -381,6 +382,27 @@ where
             eprintln!("Failed to initialize logging: {e}.")
         });
     let _ = loginit_sender.send(());
+
+    if config.global.tracing {
+        use std::net::{SocketAddr, ToSocketAddrs};
+        let socket_addrs: Vec<SocketAddr> = config
+            .global
+            .tracing_endpoint_jaeger
+            .to_socket_addrs()
+            .expect("Valid `tracing_endpoint_jaeger` value (e.g., localhost:6831)")
+            .collect();
+        let reporter = minitrace_jaeger::JaegerReporter::new(
+            *socket_addrs
+                .first()
+                .expect("Valid `tracing_endpoint_jaeger` value (e.g., localhost:6831)"),
+            config
+                .name
+                .clone()
+                .unwrap_or("unknown pipeline".to_string()),
+        )
+        .unwrap();
+        minitrace::set_reporter(reporter, Config::default());
+    }
 
     *state.metadata.write().unwrap() = match &args.metadata_file {
         None => String::new(),
@@ -980,8 +1002,8 @@ mod test_with_kafka {
             .unwrap()
             .current();
 
-        //let _ = tracing::set_logger(&TEST_LOGGER);
-        //tracing::set_max_level(LevelFilter::Debug);
+        //let _ = log::set_logger(&TEST_LOGGER);
+        //log::set_max_level(LevelFilter::Debug);
 
         // Create topics.
         let kafka_resources = KafkaResources::create_topics(&[

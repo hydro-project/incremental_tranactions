@@ -25,5 +25,7 @@
     "files.trimTrailingWhitespace": true,
     "prettier.requireConfig": true,
     "rust-analyzer.showUnlinkedFileNotification": false,
-    "java.compile.nullAnalysis.mode": "disabled"
+    "java.compile.nullAnalysis.mode": "disabled",
+    "svelte.ask-to-enable-ts-plugin": false,
+    "svelte.enable-ts-plugin": true
 }
