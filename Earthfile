@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install --yes sudo
 WORKDIR /dbsp
 ENV RUSTUP_HOME=$HOME/.rustup
 ENV CARGO_HOME=$HOME/.cargo
-# Adds python and rust binaries to thep path
+# Adds python and rust binaries to the path
 ENV PATH=$HOME/.cargo/bin:$HOME/.local/bin:$PATH
 ENV RUST_VERSION=1.78.0
 ENV RUST_BUILD_MODE='' # set to --release for release builds
@@ -35,6 +35,10 @@ install-deps:
     RUN npm install --global yarn
     RUN npm install --global openapi-typescript-codegen
     RUN apt install unzip -y
+    ## Install Bun.js
+    RUN curl -fsSL https://bun.sh/install | bash
+    ENV PATH="$HOME/.bun/bin:$PATH"
+
     RUN apt install python3-requests -y
     RUN arch=`dpkg --print-architecture`; \
             curl -LO https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-$arch.zip \
@@ -90,6 +94,8 @@ clippy:
     FROM +rust-sources
     ENV WEBUI_BUILD_DIR=/dbsp/web-console/out
     COPY ( +build-webui/out ) ./web-console/out
+    ENV WEBCONSOLE_BUILD_DIR=/dbsp/web-console-sveltekit/build
+    COPY ( +build-webui/build ) ./web-console-sveltekit/build
     DO rust+CARGO --args="clippy -- -D warnings"
     ENV RUSTDOCFLAGS="-D warnings"
     DO rust+CARGO --args="doc --no-deps"
@@ -121,8 +127,11 @@ build-webui-deps:
     FROM +install-deps
     COPY web-console/package.json ./web-console/package.json
     COPY web-console/yarn.lock ./web-console/yarn.lock
-
     RUN cd web-console && yarn install
+
+    COPY web-console-sveltekit/package.json ./web-console-sveltekit/
+    COPY web-console-sveltekit/bun.lockb ./web-console-sveltekit/
+    RUN cd web-console-sveltekit && $HOME/.bun/bin/bun install
 
 build-webui:
     FROM +build-webui-deps
@@ -142,6 +151,21 @@ build-webui:
     RUN cd web-console && yarn format-check
     RUN cd web-console && yarn build
     SAVE ARTIFACT ./web-console/out
+
+    COPY --dir web-console-sveltekit/static web-console-sveltekit/static
+    COPY --dir web-console-sveltekit/src web-console-sveltekit/src
+    COPY web-console-sveltekit/.prettierignore web-console-sveltekit/
+    COPY web-console-sveltekit/.prettierrc web-console-sveltekit/
+    COPY web-console-sveltekit/eslint.config.js web-console-sveltekit/
+    COPY web-console-sveltekit/postcss.config.js web-console-sveltekit/
+    COPY web-console-sveltekit/svelte.config.js ./web-console-sveltekit/
+    COPY web-console-sveltekit/tailwind.config.ts ./web-console-sveltekit/
+    COPY web-console-sveltekit/tsconfig.json ./web-console-sveltekit/
+    COPY web-console-sveltekit/vite.config.ts ./web-console-sveltekit/
+
+    # RUN cd web-console-sveltekit && $HOME/.bun/bin/bun run check
+    RUN cd web-console-sveltekit && $HOME/.bun/bin/bun run build
+    SAVE ARTIFACT ./web-console-sveltekit/build
 
 build-dbsp:
     FROM +rust-sources
@@ -173,6 +197,8 @@ build-manager:
     # For some reason if this ENV before the FROM line it gets invalidated
     ENV WEBUI_BUILD_DIR=/dbsp/web-console/out
     COPY ( +build-webui/out ) ./web-console/out
+    ENV WEBCONSOLE_BUILD_DIR=/dbsp/web-console-sveltekit/build
+    COPY ( +build-webui/build ) ./web-console-sveltekit/build
     DO rust+CARGO --args="build --package pipeline-manager --features pg-embed" --output="debug/pipeline-manager"
 
     IF [ -f ./target/debug/pipeline-manager ]
@@ -329,6 +355,7 @@ build-pipeline-manager-container:
     # Install cargo and rust for this non-root user
     RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
     ENV PATH="$PATH:/home/feldera/.cargo/bin"
+
     RUN ./pipeline-manager --bind-address=0.0.0.0 --sql-compiler-home=/home/feldera/database-stream-processor/sql-to-dbsp-compiler --compilation-profile=unoptimized --dbsp-override-path=/home/feldera/database-stream-processor --precompile
     ENTRYPOINT ["./pipeline-manager", "--bind-address=0.0.0.0", "--sql-compiler-home=/home/feldera/database-stream-processor/sql-to-dbsp-compiler", "--dbsp-override-path=/home/feldera/database-stream-processor", "--compilation-profile=unoptimized"]
 
@@ -372,13 +399,13 @@ test-docker-compose:
 test-docker-compose-stable:
     FROM earthly/dind:alpine
     COPY deploy/docker-compose.yml .
-    ENV FELDERA_VERSION=0.19.0
+    ENV FELDERA_VERSION=0.20.0
     RUN apk --no-cache add curl
     WITH DOCKER --pull postgres \
                 --pull docker.redpanda.com/vectorized/redpanda:v23.2.3 \
-                --pull ghcr.io/feldera/pipeline-manager:0.19.0 \
+                --pull ghcr.io/feldera/pipeline-manager:0.20.0 \
                 --load ghcr.io/feldera/pipeline-manager:latest=+build-pipeline-manager-container \
-                --pull ghcr.io/feldera/demo-container:0.19.0
+                --pull ghcr.io/feldera/demo-container:0.20.0
         RUN COMPOSE_HTTP_TIMEOUT=120 SECOPS_DEMO_ARGS="--prepare-args 200000" RUST_LOG=debug,tokio_postgres=info docker-compose -f docker-compose.yml --profile demo up --force-recreate --exit-code-from demo && \
             # This should run the latest version of the code and in the process, trigger a migration.
             COMPOSE_HTTP_TIMEOUT=120 SECOPS_DEMO_ARGS="--prepare-args 200000" FELDERA_VERSION=latest RUST_LOG=debug,tokio_postgres=info docker-compose -f docker-compose.yml up -d db pipeline-manager redpanda && \
@@ -512,7 +539,7 @@ ui-playwright-container:
     # Install zip to prepare test artifacts for export
     RUN apt-get install -y zip
 
-ui-playwright-tests:
+ui-playwright-tests-e2e:
     FROM +ui-playwright-container
     ENV FELDERA_VERSION=latest
 
@@ -521,15 +548,31 @@ ui-playwright-tests:
                     --compose ../docker-compose.yml \
                     --service pipeline-manager
             # We zip artifacts regardless of test success or error, and then we complete the command preserving test's exit_code
-            RUN if yarn playwright test; then exit_code=0; else exit_code=$?; fi \
+            RUN sleep 10 && if yarn playwright test -c playwright-e2e.config.ts; then exit_code=0; else exit_code=$?; fi \
                 && cd /dbsp \
-                && zip -r playwright-report.zip playwright-report \
-                && zip -r test-results.zip test-results \
+                && zip -r playwright-report-e2e.zip playwright-report-e2e \
+                && zip -r test-results-e2e.zip test-results-e2e \
                 && exit $exit_code
         END
     FINALLY
-        SAVE ARTIFACT --if-exists /dbsp/playwright-report.zip AS LOCAL ./playwright-artifacts/
-        SAVE ARTIFACT --if-exists /dbsp/test-results.zip      AS LOCAL ./playwright-artifacts/
+        SAVE ARTIFACT --if-exists /dbsp/playwright-report-e2e.zip AS LOCAL ./playwright-artifacts/
+        SAVE ARTIFACT --if-exists /dbsp/test-results-e2e.zip      AS LOCAL ./playwright-artifacts/
+    END
+
+ui-playwright-tests-ct:
+    FROM +ui-playwright-container
+    ENV FELDERA_VERSION=latest
+
+    TRY
+        # We zip artifacts regardless of test success or error, and then we complete the command preserving test's exit_code
+        RUN if yarn playwright test -c playwright-ct.config.ts; then exit_code=0; else exit_code=$?; fi \
+        && cd /dbsp \
+        && zip -r playwright-report-ct.zip playwright-report-ct \
+        && zip -r test-results-ct.zip test-results-ct \
+        && exit $exit_code
+    FINALLY
+        SAVE ARTIFACT --if-exists /dbsp/playwright-report-ct.zip AS LOCAL ./playwright-artifacts/
+        SAVE ARTIFACT --if-exists /dbsp/test-results-ct.zip      AS LOCAL ./playwright-artifacts/
     END
 
 benchmark:
@@ -564,6 +607,28 @@ benchmark:
     SAVE ARTIFACT crates/dbsp/galen_results.csv AS LOCAL .
     #SAVE ARTIFACT crates/dbsp/ldbc_results.csv AS LOCAL .
 
+flink-benchmark:
+    FROM +rust-sources
+
+    # Install docker compose - earthly can do this automatically, but it installs an older version
+    ENV DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+    RUN mkdir -p $DOCKER_CONFIG/cli-plugins
+    RUN curl -SL https://github.com/docker/compose/releases/download/v2.24.0-birthday.10/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+    RUN chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+    RUN mkdir -p benchmark/flink
+    COPY benchmark/flink/* benchmark/flink
+    COPY benchmark/run-nexmark.sh benchmark
+    RUN apt-get install maven
+    RUN benchmark/flink/setup-flink.sh
+
+    RUN echo "when,runner,mode,language,name,num_cores,num_events,elapsed" >> flink_results.csv
+    WITH DOCKER 
+        RUN docker compose -f benchmark/flink/docker-compose.yml -p nexmark up --build --force-recreate --renew-anon-volumes -d && \
+            docker exec -i nexmark-jobmanager-1 run.sh -q q0 2>&1 | tee flink_log.txt && \
+            ./benchmark/run-nexmark.sh --runner flink --parse < flink_log.txt >> flink_results.csv
+    END
+    SAVE ARTIFACT flink_results.csv AS LOCAL .
+
 all-tests:
     BUILD +formatting-check
     BUILD +machete
@@ -573,7 +638,8 @@ all-tests:
     BUILD +openapi-checker
     BUILD +test-sql
     BUILD +integration-tests
-    # BUILD +ui-playwright-tests
+    BUILD +ui-playwright-tests-ct
+    # BUILD +ui-playwright-tests-e2e
     BUILD +test-docker-compose
     # BUILD +test-docker-compose-stable
     BUILD +test-debezium-mysql

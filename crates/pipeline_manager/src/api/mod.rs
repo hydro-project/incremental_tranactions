@@ -25,11 +25,6 @@ mod pipeline;
 mod program;
 mod service;
 
-use crate::prober::service::{
-    ServiceProbeError, ServiceProbeRequest, ServiceProbeResponse, ServiceProbeResult,
-    ServiceProbeStatus, ServiceProbeType,
-};
-
 use crate::auth::JwkCache;
 use crate::compiler;
 use crate::config;
@@ -57,8 +52,7 @@ use utoipa_swagger_ui::SwaggerUi;
 pub(crate) use crate::compiler::ProgramStatus;
 pub(crate) use crate::config::ApiServerConfig;
 use crate::db::{
-    AttachedConnectorId, ConnectorId, PipelineId, ProgramId, ProjectDB, ServiceId, ServiceProbeId,
-    Version,
+    AttachedConnectorId, ConnectorId, PipelineId, ProgramId, ProjectDB, ServiceId, Version,
 };
 pub use crate::error::ManagerError;
 use crate::runner::RunnerApi;
@@ -151,8 +145,6 @@ request is rejected."
         service::new_service,
         service::update_service,
         service::delete_service,
-        service::new_service_probe,
-        service::list_service_probes,
         http_io::http_input,
         http_io::http_output,
         api_key::create_api_key,
@@ -171,7 +163,6 @@ request is rejected."
         crate::db::ProgramDescr,
         crate::db::ConnectorDescr,
         crate::db::ServiceDescr,
-        crate::db::ServiceProbeDescr,
         crate::db::Pipeline,
         crate::db::PipelineRuntimeState,
         crate::db::PipelineDescr,
@@ -237,7 +228,6 @@ request is rejected."
         ConnectorId,
         AttachedConnectorId,
         ServiceId,
-        ServiceProbeId,
         Version,
         ProgramStatus,
         ErrorResponse,
@@ -266,15 +256,8 @@ request is rejected."
         service::UpdateServiceResponse,
         service::CreateOrReplaceServiceRequest,
         service::CreateOrReplaceServiceResponse,
-        service::CreateServiceProbeResponse,
         api_key::NewApiKeyRequest,
         api_key::NewApiKeyResponse,
-        ServiceProbeType,
-        ServiceProbeRequest,
-        ServiceProbeResponse,
-        ServiceProbeResult,
-        ServiceProbeError,
-        ServiceProbeStatus,
         compiler::ProgramConfig,
         config::CompilationProfile,
         pipeline_types_config::OutputBufferConfig,
@@ -294,11 +277,13 @@ pub struct ApiDoc;
 // `static_files` magic.
 include!(concat!(env!("OUT_DIR"), "/generated.rs"));
 
+mod web_v2 {
+    include!(concat!(env!("OUT_DIR"), "/v2/generated.rs"));
+}
+
 // The scope for all unauthenticated API endpoints
 fn public_scope() -> Scope {
     let openapi = ApiDoc::openapi();
-    // Creates a dictionary of static files indexed by file name.
-    let generated = generate();
 
     // Leave this as an empty prefix to load the UI by default. When constructing an
     // app, always attach other scopes without empty prefixes before this one,
@@ -307,7 +292,12 @@ fn public_scope() -> Scope {
         .service(config_api::get_authentication_config)
         .service(SwaggerUi::new("/swagger-ui/{_:.*}").url("/api-doc/openapi.json", openapi))
         .service(healthz)
-        .service(ResourceFiles::new("/", generated))
+        .service(ResourceFiles::new("/", generate()))
+}
+
+fn new_scope() -> Scope {
+    web::scope("/new")
+        .service(ResourceFiles::new("/", web_v2::generate()).resolve_not_found_to_root())
 }
 
 // The scope for all authenticated API endpoints
@@ -346,8 +336,6 @@ fn api_scope() -> Scope {
         .service(service::update_service)
         .service(service::create_or_replace_service)
         .service(service::delete_service)
-        .service(service::new_service_probe)
-        .service(service::list_service_probes)
         .service(api_key::create_api_key)
         .service(api_key::list_api_keys)
         .service(api_key::get_api_key)
@@ -476,6 +464,7 @@ pub async fn run(db: Arc<Mutex<ProjectDB>>, api_config: ApiServerConfig) -> AnyR
                         let req = crate::auth::tag_with_default_tenant_id(req);
                         srv.call(req)
                     }))
+                    .service(new_scope())
                     .service(public_scope())
             });
             server.listen(listener)?.run()

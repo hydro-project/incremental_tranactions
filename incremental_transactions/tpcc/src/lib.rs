@@ -1,3 +1,5 @@
+pub mod byname_max_sql;
+pub mod byname_max_sql_incremental;
 pub mod byname_sql;
 pub mod byname_sql_incremental;
 pub mod payment_sql;

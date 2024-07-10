@@ -45,6 +45,10 @@ doctest = false
 name = "byname"
 harness = false
 
+[[bench]]
+name = "byname_max"
+harness = false
+
 # Covered by root Cargo.toml
 ## Incremental builds sometimes crash the Rust compiler
 #[profile.test]

@@ -66,5 +66,7 @@ compile() {
 # compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql_incremental.rs" 1 1
 compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql.rs" 0 1
 compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql_incremental.rs" 1 1
+compile "${THIS_ABS_DIR}/sql/byname_max.sql" "${THIS_ABS_DIR}/src/byname_max_sql.rs" 0 1
+compile "${THIS_ABS_DIR}/sql/byname_max.sql" "${THIS_ABS_DIR}/src/byname_max_sql_incremental.rs" 1 1
 #compile "${THIS_ABS_DIR}/sql/warehouse_ytd.sql" "${THIS_ABS_DIR}/src/warehouse_ytd_sql.rs" 0 1
 #compile "${THIS_ABS_DIR}/sql/warehouse_ytd.sql" "${THIS_ABS_DIR}/src/warehouse_ytd_sql_incremental.rs" 1 1

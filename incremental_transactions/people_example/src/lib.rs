@@ -16,7 +16,7 @@ mod tests {
         // This circuit maintains a view of persons over 18
         // Note: The circuit function returns a tuple of input handles and output streams,
         // presumably in the order they were declared in the original SQL file
-        let (mut circuit, (person, adult, num_adult)) = circuit(cconfig).unwrap();
+        let (mut circuit, (person, adult, num_adult, _some_output)) = circuit(cconfig).unwrap();
         // Feed two input records to the circuit.
         // First input has a count of "1"
         person.push(("Bob".to_string(), Some(12), Some(true)).into(), 1);
@@ -42,7 +42,9 @@ mod tests {
         println!("Number of adults:");
         num_adult_output
             .iter()
-            .for_each(|(output_tuple, _, z_weight)| println!("{} ({})", output_tuple.0, z_weight));
+            .for_each(|(output_tuple, _, z_weight)| {
+                println!("{:?} ({})", output_tuple.0, z_weight)
+            });
         println!("Adults:");
         out.iter()
             .for_each(|(tup, _, z_weight)| println!("{}: {}", tup.0, z_weight));
@@ -60,7 +62,9 @@ mod tests {
         println!("Number of adults:");
         num_adult_output
             .iter()
-            .for_each(|(output_tuple, _, z_weight)| println!("{} ({})", output_tuple.0, z_weight));
+            .for_each(|(output_tuple, _, z_weight)| {
+                println!("{:?} ({})", output_tuple.0, z_weight)
+            });
         println!("Adults:");
         out.iter()
             .for_each(|(tup, _, z_weight)| println!("{}: {}", tup.0, z_weight));
@@ -74,7 +78,8 @@ mod tests {
         // This circuit maintains a view of persons over 18
         // Note: The circuit function returns a tuple of input handles and output streams,
         // presumably in the order they were declared in the original SQL file
-        let (mut circuit, (person, adult, num_adult)) = circuit_incremental(cconfig).unwrap();
+        let (mut circuit, (person, adult, num_adult, _some_output)) =
+            circuit_incremental(cconfig).unwrap();
         // Feed two input records to the circuit.
         // First input has a count of "1"
         person.push(("Bob".to_string(), Some(12), Some(true)).into(), 1);
@@ -100,7 +105,9 @@ mod tests {
         println!("Number of adults:");
         num_adult_output
             .iter()
-            .for_each(|(output_tuple, _, z_weight)| println!("{} ({})", output_tuple.0, z_weight));
+            .for_each(|(output_tuple, _, z_weight)| {
+                println!("{:?} ({})", output_tuple.0, z_weight)
+            });
         println!("Adults:");
         out.iter()
             .for_each(|(tup, _, z_weight)| println!("{}: {}", tup.0, z_weight));
@@ -122,7 +129,9 @@ mod tests {
         println!("Number of adults:");
         num_adult_output
             .iter()
-            .for_each(|(output_tuple, _, z_weight)| println!("{} ({})", output_tuple.0, z_weight));
+            .for_each(|(output_tuple, _, z_weight)| {
+                println!("{:?} ({})", output_tuple.0, z_weight)
+            });
         println!("Adults:");
         out.iter()
             .for_each(|(tup, _, z_weight)| println!("{}: {}", tup.0, z_weight));

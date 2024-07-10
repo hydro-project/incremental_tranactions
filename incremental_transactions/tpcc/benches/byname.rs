@@ -182,7 +182,8 @@ fn byname_plain(
                         _in_district_ytd,
                         in_customer,
                         in_transaction_parameters,
-                        out_cust_max_order_by,
+                        _out_cust_agg,
+                        out_cust_med,
                     ) = handles;
 
                     // Return the relevant handles and references to the data
@@ -190,7 +191,7 @@ fn byname_plain(
                         circuit,
                         in_customer,
                         in_transaction_parameters,
-                        out_cust_max_order_by,
+                        out_cust_med,
                         base_vals_mut_ref.clone(),
                         update_vals_mut_ref.clone(),
                         transaction_paramters_ref.clone(),
@@ -429,6 +430,7 @@ fn byname_incremental(
                             _in_district_ytd,
                             in_customer,
                             in_transaction_parameters,
+                            _out_cust_agg,
                             out_cust_max_order_by,
                         ) = handles;
 
