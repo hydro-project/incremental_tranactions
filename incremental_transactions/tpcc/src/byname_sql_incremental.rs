@@ -98,22 +98,22 @@ where
 }
 declare_tuples! {
     Tup21<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>,
+    Tup22<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>,
     Tup14<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>,
-    Tup31<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>,
 }
 
 pipeline_types::deserialize_without_context!(Tup21, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20);
+pipeline_types::deserialize_without_context!(Tup22, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21);
 pipeline_types::deserialize_without_context!(Tup14, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13);
-pipeline_types::deserialize_without_context!(Tup31, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30);
 
 sqlvalue::to_sql_row_impl! {
     Tup21<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>,
+    Tup22<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>,
     Tup14<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>,
-    Tup31<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>,
 }
 
 
-pub fn circuit(cconf: CircuitConfig) -> Result<(DBSPHandle, (ZSetHandle<Tup8<Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>>>, ZSetHandle<Tup2<Option<i32>, Option<Decimal>>>, ZSetHandle<Tup9<Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>>>, ZSetHandle<Tup3<Option<i32>, Option<i32>, Option<i32>>>, ZSetHandle<Tup3<Option<i32>, Option<i32>, Option<Decimal>>>, ZSetHandle<Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>>, ZSetHandle<Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>, OutputHandle<WSet<Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>>>, OutputHandle<WSet<Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>>>, )), Error> {
+pub fn circuit(cconf: CircuitConfig) -> Result<(DBSPHandle, (ZSetHandle<Tup8<Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>>>, ZSetHandle<Tup2<Option<i32>, Option<Decimal>>>, ZSetHandle<Tup9<Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>>>, ZSetHandle<Tup3<Option<i32>, Option<i32>, Option<i32>>>, ZSetHandle<Tup3<Option<i32>, Option<i32>, Option<Decimal>>>, ZSetHandle<Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>>, ZSetHandle<Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>, OutputHandle<WSet<Tup1<Vec<Option<i32>>>>>, OutputHandle<WSet<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>>, )), Error> {
 
     let (circuit, streams) = Runtime::init_circuit(cconf, |circuit| {
         // CREATE TABLE `WAREHOUSE_STATIC` (`W_ID` INTEGER PRIMARY KEY, `W_NAME` VARCHAR(10), `W_STREET_1` VARCHAR(20), `W_STREET_2` VARCHAR(20), `W_CITY` VARCHAR(20), `W_STATE` CHAR(2), `W_ZIP` CHAR(9), `W_TAX` DECIMAL(4, 4))
@@ -151,258 +151,120 @@ pub fn circuit(cconf: CircuitConfig) -> Result<(DBSPHandle, (ZSetHandle<Tup8<Opt
         // CREATE TABLE `TRANSACTION_PARAMETERS` (`TXN_ID` INTEGER PRIMARY KEY, `W_ID` INTEGER, `D_ID` INTEGER, `C_ID` INTEGER, `C_W_ID` INTEGER, `C_D_ID` INTEGER, `C_LAST` VARCHAR(20), `H_AMOUNT` DECIMAL(5, 2), `H_DATE` TIMESTAMP, `DATETIME_` TIMESTAMP)
         let (stream337, handle337) = circuit.add_input_zset::<Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>();
 
-        // rel#82:LogicalJoin.(left=LogicalTableScan#1,right=LogicalTableScan#3,condition=AND(=(CAST($5):VARCHAR(20), $27), =($1, $26), =($2, $25)),joinType=inner)
-        // DBSPMapIndexOperator 2357(2230)
-        let stream2357: Stream<_, IndexedWSet<Tup0, Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>>> = stream279.map_index(move |t_1: &Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, | -> 
+        // rel#84:LogicalJoin.(left=LogicalTableScan#1,right=LogicalTableScan#3,condition=AND(=(CAST($5):VARCHAR(20), $27), =($1, $26), =($2, $25)),joinType=inner)
+        // DBSPMapIndexOperator 1790(1706)
+        let stream1790: Stream<_, IndexedWSet<Tup0, Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>>> = stream279.map_index(move |t_1: &Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, | -> 
         (Tup0, Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, ) {
             (Tup0::new(), Tup21::new((*t_1).0, (*t_1).1, (*t_1).2, (*t_1).3.clone(), (*t_1).4.clone(), (*t_1).5.clone(), (*t_1).6.clone(), (*t_1).7.clone(), (*t_1).8.clone(), (*t_1).9.clone(), (*t_1).10.clone(), (*t_1).11.clone(), (*t_1).12, (*t_1).13.clone(), (*t_1).14.clone(), (*t_1).15.clone(), (*t_1).16.clone(), (*t_1).17.clone(), (*t_1).18, (*t_1).19, (*t_1).20.clone()), )
         });
-        // rel#82:LogicalJoin.(left=LogicalTableScan#1,right=LogicalTableScan#3,condition=AND(=(CAST($5):VARCHAR(20), $27), =($1, $26), =($2, $25)),joinType=inner)
-        // DBSPMapIndexOperator 2363(2234)
-        let stream2363: Stream<_, IndexedWSet<Tup0, Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>> = stream337.map_index(move |t_2: &Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
+        // rel#84:LogicalJoin.(left=LogicalTableScan#1,right=LogicalTableScan#3,condition=AND(=(CAST($5):VARCHAR(20), $27), =($1, $26), =($2, $25)),joinType=inner)
+        // DBSPMapIndexOperator 1796(1710)
+        let stream1796: Stream<_, IndexedWSet<Tup0, Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>> = stream337.map_index(move |t_2: &Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
         (Tup0, Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, ) {
             (Tup0::new(), Tup10::new((*t_2).0, (*t_2).1, (*t_2).2, (*t_2).3, (*t_2).4, (*t_2).5, (*t_2).6.clone(), (*t_2).7.clone(), (*t_2).8, (*t_2).9), )
         });
-        // rel#82:LogicalJoin.(left=LogicalTableScan#1,right=LogicalTableScan#3,condition=AND(=(CAST($5):VARCHAR(20), $27), =($1, $26), =($2, $25)),joinType=inner)
-        // DBSPJoinFlatmapOperator 8081(2240)
-        let stream8081: Stream<_, WSet<Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>> = stream2357.join_flatmap(&stream2363, move |t_4: &Tup0, t_1: &Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, t_2: &Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
-        Option<Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>> {
-            let tmp: Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>> = Tup31::new((*t_1).0, (*t_1).1, (*t_1).2, (*t_1).3.clone(), (*t_1).4.clone(), (*t_1).5.clone(), (*t_1).6.clone(), (*t_1).7.clone(), (*t_1).8.clone(), (*t_1).9.clone(), (*t_1).10.clone(), (*t_1).11.clone(), (*t_1).12, (*t_1).13.clone(), (*t_1).14.clone(), (*t_1).15.clone(), (*t_1).16.clone(), (*t_1).17.clone(), (*t_1).18, (*t_1).19, (*t_1).20.clone(), (*t_2).0, (*t_2).1, (*t_2).2, (*t_2).3, (*t_2).4, (*t_2).5, (*t_2).6.clone(), (*t_2).7.clone(), (*t_2).8, (*t_2).9);
-            (if wrap_bool(and_bN_bN(and_bN_bN(eq_sN_sN(cast_to_sN_sN(tmp.5.clone(), 20, false), tmp.27.clone()), eq_i32N_i32N(tmp.1, tmp.26)), eq_i32N_i32N(tmp.2, tmp.25))) {
-                Some(tmp)
+        // rel#84:LogicalJoin.(left=LogicalTableScan#1,right=LogicalTableScan#3,condition=AND(=(CAST($5):VARCHAR(20), $27), =($1, $26), =($2, $25)),joinType=inner)
+        // DBSPJoinFilterMap 15012(1719)
+        let stream15012: Stream<_, WSet<Tup2<Option<i32>, Option<String>>>> = stream1790.join_flatmap(&stream1796, move |t_4: &Tup0, t_1: &Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, t_2: &Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
+        Option<Tup2<Option<i32>, Option<String>>> {
+            (if wrap_bool(and_bN_bN(and_bN_bN(eq_sN_sN(cast_to_sN_sN((*t_1).5.clone().clone(), 20, false), (*t_2).6.clone().clone()), eq_i32N_i32N((*t_1).1, (*t_2).5)), eq_i32N_i32N((*t_1).2, (*t_2).4))) {
+                Some(Tup2::new((*t_1).0, (*t_1).3.clone().clone()))
             } else {
-                None::<Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>
+                None::<Tup2<Option<i32>, Option<String>>>
             })
         });
-        // rel#84:LogicalProject.(input=LogicalJoin#82,exprs=[$3, $4, $0, $6, $7, $8, $9, $10, $11, $13, $14, $15, $16, $12])
-        // DBSPMapOperator 8174(2243)
-        let stream8174: Stream<_, WSet<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>> = stream8081.map(move |t_6: &Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
-        Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>> {
-            Tup14::new((*t_6).3.clone(), (*t_6).4.clone(), (*t_6).0, (*t_6).6.clone(), (*t_6).7.clone(), (*t_6).8.clone(), (*t_6).9.clone(), (*t_6).10.clone(), (*t_6).11.clone(), (*t_6).13.clone(), (*t_6).14.clone(), (*t_6).15.clone(), (*t_6).16.clone(), (*t_6).12)
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        // DBSPMapIndexOperator 15014(1722)
+        let stream15014: Stream<_, IndexedWSet<Tup0, Tup2<Option<i32>, Option<String>>>> = stream15012.map_index(move |t_7: &Tup2<Option<i32>, Option<String>>, | -> 
+        (Tup0, Tup2<Option<i32>, Option<String>>, ) {
+            (Tup0::new(), Tup2::new((*t_7).0, (*t_7).1.clone()), )
         });
-        // rel#86:LogicalSort.(input=LogicalProject#84,sort0=$0,dir0=ASC,fetch=1)
-        // DBSPMapIndexOperator 8273(2246)
-        let stream8273: Stream<_, IndexedWSet<(), Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>> = stream8174.map_index(move |t_7: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, | -> 
-        ((), Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, ) {
-            ((), Tup14::new((*t_7).0.clone(), (*t_7).1.clone(), (*t_7).2, (*t_7).3.clone(), (*t_7).4.clone(), (*t_7).5.clone(), (*t_7).6.clone(), (*t_7).7.clone(), (*t_7).8.clone(), (*t_7).9.clone(), (*t_7).10.clone(), (*t_7).11.clone(), (*t_7).12.clone(), (*t_7).13), )
-        });
-        // rel#86:LogicalSort.(input=LogicalProject#84,sort0=$0,dir0=ASC,fetch=1)
-        struct Cmpstream8284;
-        impl CmpFunc<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>> for Cmpstream8284 {
-            fn cmp(left: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, right: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>) -> std::cmp::Ordering {
-                let ord = left.0.cmp(&right.0);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.1.cmp(&right.1);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.2.cmp(&right.2);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.3.cmp(&right.3);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.4.cmp(&right.4);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.5.cmp(&right.5);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.6.cmp(&right.6);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.7.cmp(&right.7);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.8.cmp(&right.8);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.9.cmp(&right.9);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.10.cmp(&right.10);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.11.cmp(&right.11);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.12.cmp(&right.12);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.13.cmp(&right.13);
-                if ord != Ordering::Equal { return ord };
-                return Ordering::Equal;
-            }
-        }
-        // DBSPIndexedTopKOperator 8284(914)
-        let stream8284: Stream<_, IndexedWSet<(), Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>> = stream8273.topk_custom_order::<Cmpstream8284>(cast_to_u_i32(1i32));
-        // rel#86:LogicalSort.(input=LogicalProject#84,sort0=$0,dir0=ASC,fetch=1)
-        // DBSPAggregateOperator 8316(2256)
-        let stream8316: Stream<_, IndexedWSet<(), Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>>> = stream8284.aggregate(Fold::<_, _, UnimplementedSemigroup<_>, _, _>::new(Vec::new(), move |t_8: &mut Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>, t_9: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, t_0: Weight, | {
-            weighted_push(t_8, t_9, t_0)
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        // DBSPAggregateOperator 15081(1726)
+        let stream15081: Stream<_, IndexedWSet<Tup0, Tup1<Vec<Option<i32>>>>> = stream15014.aggregate(Fold::<_, _, Semigroup1<Vec<Option<i32>>, ConcatSemigroup<Vec<Option<i32>>>>, _, _>::with_output(Tup1::new(vec!(
+        )), move |t_31: &mut Tup1<Vec<Option<i32>>>, t_8: &Tup2<Option<i32>, Option<String>>, t_33: Weight, | {
+            (*t_31) = Tup1::new(array_agg(&mut (*t_31).0, (*t_8).0, t_33, false))
+        }, move |t_32: Tup1<Vec<Option<i32>>>, | -> 
+        Tup1<Vec<Option<i32>>> {
+            Tup1::new(t_32.0)
         }));
-        // rel#86:LogicalSort.(input=LogicalProject#84,sort0=$0,dir0=ASC,fetch=1)
-        // DBSPMapOperator 8332(2258)
-        let stream8332: Stream<_, WSet<Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>>> = stream8316.map(move |(k, v): (&(), &Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>)| -> Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>> {
-            let ec = Extract::new(move |r: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>| r.0.clone());
-            let comp = move |a: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, b: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>| { ec.compare(a, b) };let mut v = v.clone();
-            v.sort_by(comp);
-            v
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        // DBSPMapOperator 15083(1728)
+        let stream15083: Stream<_, WSet<Tup1<Vec<Option<i32>>>>> = stream15081.map(move |t_10: (&Tup0, &Tup1<Vec<Option<i32>>>, ), | -> 
+        Tup1<Vec<Option<i32>>> {
+            Tup1::new((*t_10.1).0.clone())
         });
-        // CREATE VIEW `CUST_ENUM` AS
-        // SELECT `C`.`C_FIRST`, `C`.`C_MIDDLE`, `C`.`C_ID`, `C`.`C_STREET_1`, `C`.`C_STREET_2`, `C`.`C_CITY`, `C`.`C_STATE`, `C`.`C_ZIP`, `C`.`C_PHONE`, `C`.`C_CREDIT`, `C`.`C_CREDIT_LIM`, `C`.`C_DISCOUNT`, `C`.`C_BALANCE`, `C`.`C_SINCE`
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        // DBSPMapOperator 15088(1733)
+        let stream15088: Stream<_, WSet<Tup1<Vec<Option<i32>>>>> = stream15081.map(move |t_10: (&Tup0, &Tup1<Vec<Option<i32>>>, ), | -> 
+        Tup1<Vec<Option<i32>>> {
+            Tup1::new(vec!(
+            ))
+        });
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        // DBSPNegateOperator 15093(1736)
+        let stream15093: Stream<_, WSet<Tup1<Vec<Option<i32>>>>> = stream15088.neg();
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        let stream861 = circuit.add_source(Generator::new(|| if Runtime::worker_index() == 0 {zset!(
+            Tup1::new(vec!(
+            )) => 1,
+        )} else {zset!(
+        )}));
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        // DBSPDifferentiateOperator 1842(861)
+        let stream1842: Stream<_, WSet<Tup1<Vec<Option<i32>>>>> = stream861.differentiate();
+        // rel#88:LogicalAggregate.(input=LogicalProject#86,group={},CUST_ARRAY=ARRAY_AGG($0) WITHIN GROUP ([1]))
+        // DBSPSumOperator 15095(1738)
+        let stream15095: Stream<_, WSet<Tup1<Vec<Option<i32>>>>> = stream1842.sum([&stream15093, &stream15083]);
+        // CREATE VIEW `CUST_AGG` AS
+        // SELECT ARRAY_AGG(`EXPR$0`.`C_ID` ORDER BY `EXPR$0`.`C_FIRST`) AS `CUST_ARRAY`
+        // FROM (SELECT `C`.`C_ID`, `C`.`C_FIRST`
         // FROM `schema`.`CUSTOMER` AS `C`,
         // `schema`.`TRANSACTION_PARAMETERS` AS `T`
         // WHERE `C`.`C_LAST` = `T`.`C_LAST` AND `C`.`C_D_ID` = `T`.`C_D_ID` AND `C`.`C_W_ID` = `T`.`C_W_ID`
-        // ORDER BY `C_FIRST`
-        // FETCH NEXT 1 ROWS ONLY
-        // ORDER BY `C_FIRST`
-        // FETCH NEXT 1 ROWS ONLY
-        // DBSPSinkOperator 9518(1008)
-        let handle9518 = stream8332.output();
+        // ORDER BY `C_FIRST`) AS `EXPR$0`
+        // DBSPSinkOperator 15097(879)
+        let handle15097 = stream15095.output();
 
-        // rel#228:LogicalJoin.(left=LogicalTableScan#89,right=LogicalTableScan#91,condition=AND(=(CAST($5):VARCHAR(20), $27), =($1, $26), =($2, $25)),joinType=inner)
-        // DBSPJoinFlatmapOperator 14957(2284)
-        let stream14957: Stream<_, WSet<Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>> = stream2357.join_flatmap(&stream2363, move |t_13: &Tup0, t_10: &Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, t_11: &Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
-        Option<Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>> {
-            let tmp: Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>> = Tup31::new((*t_10).0, (*t_10).1, (*t_10).2, (*t_10).3.clone(), (*t_10).4.clone(), (*t_10).5.clone(), (*t_10).6.clone(), (*t_10).7.clone(), (*t_10).8.clone(), (*t_10).9.clone(), (*t_10).10.clone(), (*t_10).11.clone(), (*t_10).12, (*t_10).13.clone(), (*t_10).14.clone(), (*t_10).15.clone(), (*t_10).16.clone(), (*t_10).17.clone(), (*t_10).18, (*t_10).19, (*t_10).20.clone(), (*t_11).0, (*t_11).1, (*t_11).2, (*t_11).3, (*t_11).4, (*t_11).5, (*t_11).6.clone(), (*t_11).7.clone(), (*t_11).8, (*t_11).9);
-            (if wrap_bool(and_bN_bN(and_bN_bN(eq_sN_sN(cast_to_sN_sN(tmp.5.clone(), 20, false), tmp.27.clone()), eq_i32N_i32N(tmp.1, tmp.26)), eq_i32N_i32N(tmp.2, tmp.25))) {
+        // rel#187:LogicalJoin.(left=LogicalTableScan#91,right=LogicalTableScan#93,condition==($0, ITEM($21, +(/(ARRAY_LENGTH($21), 2), 1))),joinType=inner)
+        // DBSPMapIndexOperator 15099(1755)
+        let stream15099: Stream<_, IndexedWSet<Tup0, Tup1<Vec<Option<i32>>>>> = stream15095.map_index(move |t_13: &Tup1<Vec<Option<i32>>>, | -> 
+        (Tup0, Tup1<Vec<Option<i32>>>, ) {
+            (Tup0::new(), Tup1::new((*t_13).0.clone()), )
+        });
+        // rel#187:LogicalJoin.(left=LogicalTableScan#91,right=LogicalTableScan#93,condition==($0, ITEM($21, +(/(ARRAY_LENGTH($21), 2), 1))),joinType=inner)
+        // DBSPJoinFilterMap 15619(1761)
+        let stream15619: Stream<_, WSet<Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>>>> = stream1790.join_flatmap(&stream15099, move |t_15: &Tup0, t_12: &Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, t_13: &Tup1<Vec<Option<i32>>>, | -> 
+        Option<Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>>> {
+            let tmp: Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>> = Tup22::new((*t_12).0, (*t_12).1, (*t_12).2, (*t_12).3.clone(), (*t_12).4.clone(), (*t_12).5.clone(), (*t_12).6.clone(), (*t_12).7.clone(), (*t_12).8.clone(), (*t_12).9.clone(), (*t_12).10.clone(), (*t_12).11.clone(), (*t_12).12, (*t_12).13.clone(), (*t_12).14.clone(), (*t_12).15.clone(), (*t_12).16.clone(), (*t_12).17.clone(), (*t_12).18, (*t_12).19, (*t_12).20.clone(), (*t_13).0.clone());
+            (if wrap_bool(eq_i32N_i32N((*&tmp).0, index__N_((*&tmp).21.clone(), cast_to_u_i32(plus_i32_i32(div_i32_i32(cardinality((*&tmp).21.clone()), 2i32), 1i32)) - 1))) {
                 Some(tmp)
             } else {
-                None::<Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>
+                None::<Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>>>
             })
         });
-        // rel#230:LogicalProject.(input=LogicalTableScan#89,exprs=[$3])
-        // DBSPMapOperator 2436(2287)
-        let stream2436: Stream<_, WSet<Tup1<Option<String>>>> = stream279.map(move |t_15: &Tup21<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>>, | -> 
-        Tup1<Option<String>> {
-            Tup1::new((*t_15).3.clone())
+        // rel#190:LogicalJoin.(left=LogicalJoin#187,right=LogicalTableScan#97,condition=true,joinType=inner)
+        // DBSPMapIndexOperator 15697(1764)
+        let stream15697: Stream<_, IndexedWSet<Tup0, Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>>>> = stream15619.map_index(move |t_17: &Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>>, | -> 
+        (Tup0, Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>>, ) {
+            (Tup0::new(), Tup22::new((*t_17).0, (*t_17).1, (*t_17).2, (*t_17).3.clone(), (*t_17).4.clone(), (*t_17).5.clone(), (*t_17).6.clone(), (*t_17).7.clone(), (*t_17).8.clone(), (*t_17).9.clone(), (*t_17).10.clone(), (*t_17).11.clone(), (*t_17).12, (*t_17).13.clone(), (*t_17).14.clone(), (*t_17).15.clone(), (*t_17).16.clone(), (*t_17).17.clone(), (*t_17).18, (*t_17).19, (*t_17).20.clone(), (*t_17).21.clone()), )
         });
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        // DBSPMapIndexOperator 2441(2290)
-        let stream2441: Stream<_, IndexedWSet<Tup0, Tup1<Option<String>>>> = stream2436.map_index(move |t_16: &Tup1<Option<String>>, | -> 
-        (Tup0, Tup1<Option<String>>, ) {
-            (Tup0::new(), Tup1::new((*t_16).0.clone()), )
-        });
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        // DBSPAggregateOperator 15046(2294)
-        let stream15046: Stream<_, IndexedWSet<Tup0, Tup1<Option<String>>>> = stream2441.aggregate(Fold::<_, _, Semigroup1<Option<String>, MaxSemigroup<Option<String>>>, _, _>::with_output(Tup1::new(None::<String>), move |t_39: &mut Tup1<Option<String>>, t_17: &Tup1<Option<String>>, t_41: Weight, | {
-            (*t_39) = Tup1::new(agg_max_sN_sN((*t_39).0.clone(), (*t_17).0.clone()))
-        }, move |t_40: Tup1<Option<String>>, | -> 
-        Tup1<Option<String>> {
-            Tup1::new(t_40.0)
-        }));
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        // DBSPMapOperator 15048(2296)
-        let stream15048: Stream<_, WSet<Tup1<Option<String>>>> = stream15046.map(move |t_19: (&Tup0, &Tup1<Option<String>>, ), | -> 
-        Tup1<Option<String>> {
-            Tup1::new((*t_19.1).0.clone())
-        });
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        // DBSPMapOperator 15053(2301)
-        let stream15053: Stream<_, WSet<Tup1<Option<String>>>> = stream15046.map(move |t_19: (&Tup0, &Tup1<Option<String>>, ), | -> 
-        Tup1<Option<String>> {
-            Tup1::new(None::<String>)
-        });
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        // DBSPNegateOperator 15058(2304)
-        let stream15058: Stream<_, WSet<Tup1<Option<String>>>> = stream15053.neg();
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        let stream1505 = circuit.add_source(Generator::new(|| if Runtime::worker_index() == 0 {zset!(
-            Tup1::new(None::<String>) => 1,
-        )} else {zset!(
-        )}));
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        // DBSPDifferentiateOperator 2467(1505)
-        let stream2467: Stream<_, WSet<Tup1<Option<String>>>> = stream1505.differentiate();
-        // rel#232:LogicalAggregate.(input=LogicalProject#230,group={},EXPR$0=MAX($0))
-        // DBSPSumOperator 15060(2306)
-        let stream15060: Stream<_, WSet<Tup1<Option<String>>>> = stream2467.sum([&stream15058, &stream15048]);
-        // rel#234:LogicalJoin.(left=LogicalJoin#228,right=LogicalAggregate#232,condition==($3, $31),joinType=inner)
-        // DBSPFilterOperator 14959(2308)
-        let stream14959: Stream<_, WSet<Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>> = stream14957.filter(move |t_21: &Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
-        bool {
-            (!(*t_21).3.is_none())
-        });
-        // rel#234:LogicalJoin.(left=LogicalJoin#228,right=LogicalAggregate#232,condition==($3, $31),joinType=inner)
-        // DBSPFilterOperator 15062(2311)
-        let stream15062: Stream<_, WSet<Tup1<Option<String>>>> = stream15060.filter(move |t_22: &Tup1<Option<String>>, | -> 
-        bool {
-            (!(*t_22).0.is_none())
-        });
-        // rel#234:LogicalJoin.(left=LogicalJoin#228,right=LogicalAggregate#232,condition==($3, $31),joinType=inner)
-        // DBSPMapIndexOperator 14962(2314)
-        let stream14962: Stream<_, IndexedWSet<Tup1<String>, Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>>> = stream14959.map_index(move |t_23: &Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
-        (Tup1<String>, Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, ) {
-            (Tup1::new(cast_to_s_sN((*t_23).3.clone(), 16, false)), Tup31::new((*t_23).0, (*t_23).1, (*t_23).2, (*t_23).3.clone(), (*t_23).4.clone(), (*t_23).5.clone(), (*t_23).6.clone(), (*t_23).7.clone(), (*t_23).8.clone(), (*t_23).9.clone(), (*t_23).10.clone(), (*t_23).11.clone(), (*t_23).12, (*t_23).13.clone(), (*t_23).14.clone(), (*t_23).15.clone(), (*t_23).16.clone(), (*t_23).17.clone(), (*t_23).18, (*t_23).19, (*t_23).20.clone(), (*t_23).21, (*t_23).22, (*t_23).23, (*t_23).24, (*t_23).25, (*t_23).26, (*t_23).27.clone(), (*t_23).28.clone(), (*t_23).29, (*t_23).30), )
-        });
-        // rel#234:LogicalJoin.(left=LogicalJoin#228,right=LogicalAggregate#232,condition==($3, $31),joinType=inner)
-        // DBSPMapIndexOperator 15065(2318)
-        let stream15065: Stream<_, IndexedWSet<Tup1<String>, Tup1<Option<String>>>> = stream15062.map_index(move |t_24: &Tup1<Option<String>>, | -> 
-        (Tup1<String>, Tup1<Option<String>>, ) {
-            (Tup1::new(cast_to_s_sN((*t_24).0.clone(), 16, false)), Tup1::new((*t_24).0.clone()), )
-        });
-        // rel#234:LogicalJoin.(left=LogicalJoin#228,right=LogicalAggregate#232,condition==($3, $31),joinType=inner)
-        // DBSPJoinOperator 15069(2324)
-        let stream15069: Stream<_, WSet<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>> = stream14962.join(&stream15065, move |t_25: &Tup1<String>, t_23: &Tup31<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, t_24: &Tup1<Option<String>>, | -> 
+        // rel#190:LogicalJoin.(left=LogicalJoin#187,right=LogicalTableScan#97,condition=true,joinType=inner)
+        // DBSPJoinOperator 15769(1774)
+        let stream15769: Stream<_, WSet<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>> = stream15697.join(&stream1796, move |t_20: &Tup0, t_17: &Tup22<Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Timestamp>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<i32>, Option<i32>, Option<String>, Vec<Option<i32>>>, t_18: &Tup10<Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<i32>, Option<String>, Option<Decimal>, Option<Timestamp>, Option<Timestamp>>, | -> 
         Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>> {
-            Tup14::new((*t_23).3.clone().clone(), (*t_23).4.clone().clone(), (*t_23).0, (*t_23).6.clone().clone(), (*t_23).7.clone().clone(), (*t_23).8.clone().clone(), (*t_23).9.clone().clone(), (*t_23).10.clone().clone(), (*t_23).11.clone().clone(), (*t_23).13.clone().clone(), (*t_23).14.clone().clone(), (*t_23).15.clone().clone(), (*t_23).16.clone().clone(), (*t_23).12)
+            Tup14::new((*t_17).3.clone().clone(), (*t_17).4.clone().clone(), (*t_17).0, (*t_17).6.clone().clone(), (*t_17).7.clone().clone(), (*t_17).8.clone().clone(), (*t_17).9.clone().clone(), (*t_17).10.clone().clone(), (*t_17).11.clone().clone(), (*t_17).13.clone().clone(), (*t_17).14.clone().clone(), (*t_17).15.clone().clone(), (*t_17).16.clone().clone(), (*t_17).12)
         });
-        // rel#238:LogicalSort.(input=LogicalProject#236,fetch=1)
-        // DBSPMapIndexOperator 15071(2327)
-        let stream15071: Stream<_, IndexedWSet<(), Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>> = stream15069.map_index(move |t_28: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, | -> 
-        ((), Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, ) {
-            ((), Tup14::new((*t_28).0.clone(), (*t_28).1.clone(), (*t_28).2, (*t_28).3.clone(), (*t_28).4.clone(), (*t_28).5.clone(), (*t_28).6.clone(), (*t_28).7.clone(), (*t_28).8.clone(), (*t_28).9.clone(), (*t_28).10.clone(), (*t_28).11.clone(), (*t_28).12.clone(), (*t_28).13), )
-        });
-        // rel#238:LogicalSort.(input=LogicalProject#236,fetch=1)
-        struct Cmpstream15075;
-        impl CmpFunc<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>> for Cmpstream15075 {
-            fn cmp(left: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, right: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>) -> std::cmp::Ordering {
-                let ord = left.0.cmp(&right.0);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.1.cmp(&right.1);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.2.cmp(&right.2);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.3.cmp(&right.3);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.4.cmp(&right.4);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.5.cmp(&right.5);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.6.cmp(&right.6);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.7.cmp(&right.7);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.8.cmp(&right.8);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.9.cmp(&right.9);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.10.cmp(&right.10);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.11.cmp(&right.11);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.12.cmp(&right.12);
-                if ord != Ordering::Equal { return ord };
-                let ord = left.13.cmp(&right.13);
-                if ord != Ordering::Equal { return ord };
-                return Ordering::Equal;
-            }
-        }
-        // DBSPIndexedTopKOperator 15075(2071)
-        let stream15075: Stream<_, IndexedWSet<(), Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>> = stream15071.topk_custom_order::<Cmpstream15075>(cast_to_u_i32(1i32));
-        // rel#238:LogicalSort.(input=LogicalProject#236,fetch=1)
-        // DBSPAggregateOperator 15077(2337)
-        let stream15077: Stream<_, IndexedWSet<(), Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>>> = stream15075.aggregate(Fold::<_, _, UnimplementedSemigroup<_>, _, _>::new(Vec::new(), move |t_29: &mut Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>, t_30: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, t_0: Weight, | {
-            weighted_push(t_29, t_30, t_0)
-        }));
-        // rel#238:LogicalSort.(input=LogicalProject#236,fetch=1)
-        // DBSPMapOperator 15079(2339)
-        let stream15079: Stream<_, WSet<Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>>> = stream15077.map(move |(k, v): (&(), &Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>>)| -> Vec<Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>> {
-            let ec = ;
-            let comp = move |a: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>, b: &Tup14<Option<String>, Option<String>, Option<i32>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<String>, Option<Decimal>, Option<Decimal>, Option<Decimal>, Option<Timestamp>>| { ec.compare(a, b) };let mut v = v.clone();
-            v.sort_by(comp);
-            v
-        });
-        // CREATE VIEW `CUST_MAX` AS
+        // CREATE VIEW `CUST_MED` AS
         // SELECT `C`.`C_FIRST`, `C`.`C_MIDDLE`, `C`.`C_ID`, `C`.`C_STREET_1`, `C`.`C_STREET_2`, `C`.`C_CITY`, `C`.`C_STATE`, `C`.`C_ZIP`, `C`.`C_PHONE`, `C`.`C_CREDIT`, `C`.`C_CREDIT_LIM`, `C`.`C_DISCOUNT`, `C`.`C_BALANCE`, `C`.`C_SINCE`
         // FROM `schema`.`CUSTOMER` AS `C`,
+        // `schema`.`CUST_AGG` AS `A`,
         // `schema`.`TRANSACTION_PARAMETERS` AS `T`
-        // WHERE `C`.`C_LAST` = `T`.`C_LAST` AND `C`.`C_D_ID` = `T`.`C_D_ID` AND `C`.`C_W_ID` = `T`.`C_W_ID` AND `C`.`C_FIRST` = (((SELECT MAX(`CUSTOMER`.`C_FIRST`)
-        // FROM `schema`.`CUSTOMER` AS `CUSTOMER`)))
-        // FETCH NEXT 1 ROWS ONLY
-        // FETCH NEXT 1 ROWS ONLY
-        // DBSPSinkOperator 15084(2165)
-        let handle15084 = stream15079.output();
+        // WHERE `C`.`C_ID` = `A`.`CUST_ARRAY`[ARRAY_LENGTH(`A`.`CUST_ARRAY`) / 2 + 1]
+        // DBSPSinkOperator 15788(1643)
+        let handle15788 = stream15769.output();
 
-        Ok((handle49, handle67, handle120, handle143, handle166, handle279, handle337, handle9518, handle15084, ))
+        Ok((handle49, handle67, handle120, handle143, handle166, handle279, handle337, handle15097, handle15788, ))
     })?;
     Ok((circuit, streams))
 }
