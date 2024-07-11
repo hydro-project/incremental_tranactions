@@ -1,17 +1,7 @@
-pub mod byname_max_sql;
-pub mod byname_max_sql_incremental;
 pub mod byname_sql;
 pub mod byname_sql_incremental;
 pub mod payment_sql;
 pub mod payment_sql_incremental;
-
-#[cfg(not(target_env = "msvc"))]
-#[global_allocator]
-static ALLOC: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
-
-#[allow(non_upper_case_globals)]
-#[export_name = "malloc_conf"]
-pub static malloc_conf: &[u8] = b"prof:true,prof_active:true,lg_prof_sample:19\0";
 
 #[cfg(test)]
 mod test {
@@ -73,4 +63,52 @@ mod test {
 
         circuit.step().unwrap();
     }
+
+    #[test]
+    fn test_byname_sql() {
+        let cconf = CircuitConfig::with_workers(1);
+        let (mut circuit, handles) = byname_sql::circuit(cconf).unwrap();
+        let (
+            in_warehouse_static,
+            in_warehouse,
+            in_district_static,
+            in_district_next_id,
+            in_district_ytd,
+            in_customer,
+            in_transaction_parameters,
+            out_cust_agg,
+            out_cust_byname,
+        ) = handles;
+        in_customer.push(
+            (
+                Some(1),
+                Some(43),
+                Some(44),
+                Some("Alice"),
+                None,
+                Some("Public"),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            )
+                .into(),
+            1,
+        );
+
+        circuit.step().unwrap();
+    }
+
+    fn customer(id: i32, w_id: i32,
 }

@@ -1,1 +1,1 @@
-(in_warehouse_static, in_warehouse, in_district_static, in_district_next_id, in_district_ytd, in_customer, in_transaction_parameters, out_ncustomers, out_cust_enum, out_cust_agg, out_cust_med, out_cust_med, out_cust_max, out_median_pos)
+(in_warehouse_static, in_warehouse, in_district_static, in_district_next_id, in_district_ytd, in_customer, in_transaction_parameters, out_cust_agg, out_cust_byname)
