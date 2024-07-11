@@ -66,7 +66,6 @@ fn byname_plain(
             c_middle CHAR(2),
             c_last VARCHAR(16),
              */
-            let c_id = 1;
             let c_d_id = 1;
             let c_w_id = 1;
             //let c_first = "first_name".to_string();
@@ -81,7 +80,7 @@ fn byname_plain(
                 .map(|i| {
                     (
                         (
-                            Some(c_id),
+                            Some(i), // c_id
                             Some(c_d_id),
                             Some(c_w_id),
                             Some(i.to_string()), // first name
@@ -117,10 +116,10 @@ fn byname_plain(
                 .map(|i| {
                     (
                         (
-                            Some(c_id),
+                            Some(i), // c_id
                             Some(c_d_id),
                             Some(c_w_id),
-                            Some((input.base_size + i).to_string()),
+                            Some((input.base_size + i).to_string()), // first name
                             Some(c_middle.clone()),
                             Some(c_last.clone()),
                             None,
@@ -263,7 +262,6 @@ fn byname_incremental(
                 c_middle CHAR(2),
                 c_last VARCHAR(16),
                  */
-                let c_id = 1;
                 let c_d_id = 1;
                 let c_w_id = 1;
                 //let c_first = "first_name".to_string();
@@ -303,7 +301,7 @@ fn byname_incremental(
                     .map(|i| {
                         (
                             (
-                                Some(c_id),
+                                Some(i), // c_id
                                 Some(c_d_id),
                                 Some(c_w_id),
                                 Some(i.to_string()), // first name
@@ -364,7 +362,7 @@ fn byname_incremental(
                     .map(|i| {
                         (
                             (
-                                Some(c_id),
+                                Some(i), // c_id
                                 Some(c_d_id),
                                 Some(c_w_id),
                                 Some((input.base_size + i).to_string()),
