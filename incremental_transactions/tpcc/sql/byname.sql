@@ -1,6 +1,6 @@
 CREATE VIEW cust_agg AS
-SELECT ARRAY_AGG(c_id ORDER BY c_first) AS cust_array
-FROM (SELECT c.c_id, c.c_first
+SELECT ARRAY_AGG((c_id + c_w_id + c_d_id) ORDER BY c_first) AS cust_array
+FROM (SELECT c.c_id, c.c_w_id, c.c_d_id, c.c_first
       FROM customer AS c,
           transaction_parameters AS t
       WHERE c.c_last = t.c_last
@@ -16,4 +16,4 @@ SELECT c.c_first, c.c_middle, c.c_id,
 FROM customer as c,
      cust_agg as a,
      transaction_parameters as t
-WHERE c.c_id = a.cust_array[(ARRAY_LENGTH(a.cust_array) / 2) + 1];
+WHERE (c.c_id + c.c_w_id + c.c_d_id) = a.cust_array[(ARRAY_LENGTH(a.cust_array) / 2) + 1];

@@ -1,17 +1,7 @@
-pub mod byname_max_sql;
-pub mod byname_max_sql_incremental;
 pub mod byname_sql;
 pub mod byname_sql_incremental;
 pub mod payment_sql;
 pub mod payment_sql_incremental;
-
-#[cfg(not(target_env = "msvc"))]
-#[global_allocator]
-static ALLOC: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
-
-#[allow(non_upper_case_globals)]
-#[export_name = "malloc_conf"]
-pub static malloc_conf: &[u8] = b"prof:true,prof_active:true,lg_prof_sample:19\0";
 
 #[cfg(test)]
 mod test {
@@ -95,8 +85,9 @@ mod test {
                 Some(43),
                 Some(44),
                 Some("Alice"),
-                Some("Q"),
+                None,
                 Some("Public"),
+                None,
                 None,
                 None,
                 None,
@@ -118,4 +109,6 @@ mod test {
 
         circuit.step().unwrap();
     }
+
+    fn customer(id: i32, w_id: i32,
 }
