@@ -10,8 +10,7 @@ use dbsp::{
 };
 use tpcc::{
     byname_sql, byname_sql_constargs, byname_sql_constargs_inlined, byname_sql_incremental,
-    byname_sql_incremental_constargs, byname_sql_incremental_constargs_inlined,
-    byname_sql_incremental_constargs_inlined_minimized, datatypes::*,
+    byname_sql_incremental_constargs, byname_sql_incremental_constargs_inlined, datatypes::*,
 };
 
 #[derive(Clone, Copy, Debug)]
@@ -22,7 +21,6 @@ enum ByNameImplementation {
     Incremental,
     IncrementalConstArgs,
     IncrementalConstArgsInlined,
-    IncrementalConstArgsInlinedMinimized,
 }
 
 impl std::fmt::Display for ByNameImplementation {
@@ -35,9 +33,6 @@ impl std::fmt::Display for ByNameImplementation {
             ByNameImplementation::IncrementalConstArgs => write!(f, "IncrementalConstArgs"),
             ByNameImplementation::IncrementalConstArgsInlined => {
                 write!(f, "IncrementalConstArgsInlined")
-            }
-            ByNameImplementation::IncrementalConstArgsInlinedMinimized => {
-                write!(f, "IncrementalConstArgsInlinedMinimized")
             }
         }
     }
@@ -328,28 +323,6 @@ fn byname_plain(
                                 ByNameImplementation::IncrementalConstArgsInlined => {
                                     let (circuit, handles) =
                                         byname_sql_incremental_constargs_inlined::circuit(cconf)
-                                            .unwrap();
-
-                                    let (
-                                        _in_warehouse_static,
-                                        _in_warehouse,
-                                        _in_district_static,
-                                        _in_district_next_id,
-                                        _in_district_ytd,
-                                        in_customer,
-                                        in_transaction_parameters,
-                                        //_out_cust_agg,
-                                        out_cust_med,
-                                    ) = handles;
-
-                                    (
-                                        circuit,
-                                        (in_customer, in_transaction_parameters, out_cust_med),
-                                    )
-                                }
-                                ByNameImplementation::IncrementalConstArgsInlinedMinimized => {
-                                    let (circuit, handles) =
-                                        byname_sql_incremental_constargs_inlined_minimized::circuit(cconf)
                                             .unwrap();
 
                                     let (
