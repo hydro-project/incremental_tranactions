@@ -1,5 +1,13 @@
+pub mod byname_max_sql;
+pub mod byname_max_sql_incremental;
 pub mod byname_sql;
+pub mod byname_sql_constargs;
+pub mod byname_sql_constargs_inlined;
 pub mod byname_sql_incremental;
+pub mod byname_sql_incremental_constargs;
+pub mod byname_sql_incremental_constargs_inlined;
+pub mod byname_sql_incremental_constargs_inlined_minimized;
+pub mod datatypes;
 pub mod payment_sql;
 pub mod payment_sql_incremental;
 
@@ -79,36 +87,6 @@ mod test {
             out_cust_agg,
             out_cust_byname,
         ) = handles;
-        in_customer.push(
-            (
-                Some(1),
-                Some(43),
-                Some(44),
-                Some("Alice"),
-                None,
-                Some("Public"),
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-            )
-                .into(),
-            1,
-        );
-
         circuit.step().unwrap();
     }
-
-    fn customer(id: i32, w_id: i32,
 }

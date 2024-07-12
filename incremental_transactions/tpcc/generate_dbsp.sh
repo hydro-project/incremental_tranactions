@@ -40,6 +40,11 @@ compile() {
     # Concatenate the schema and payment files on the fly and hand to the compiler
     args="--alltables --handles ${DO_INCREMENTAL}"
     ${SQL_COMPILER} <(cat "${SCHEMA}" "${VIEWS_FILE}") ${args} -o ${OUTPUT}
+    # Check if the compiler failed and exit
+    if [ $? -ne 0 ]; then
+        echo "Compilation failed"
+        exit 1
+    fi
     # Remove the allocator code from the output
     remove_allocator "${OUTPUT}"
 
@@ -64,9 +69,14 @@ compile() {
 
 # compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql.rs" 0 1
 # compile "${THIS_ABS_DIR}/sql/payment.sql" "${THIS_ABS_DIR}/src/payment_sql_incremental.rs" 1 1
-compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql.rs" 0 1
-compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql_incremental.rs" 1 1
-compile "${THIS_ABS_DIR}/sql/byname_max.sql" "${THIS_ABS_DIR}/src/byname_max_sql.rs" 0 1
-compile "${THIS_ABS_DIR}/sql/byname_max.sql" "${THIS_ABS_DIR}/src/byname_max_sql_incremental.rs" 1 1
+#compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql.rs" 0 1
+#compile "${THIS_ABS_DIR}/sql/byname.sql" "${THIS_ABS_DIR}/src/byname_sql_incremental.rs" 1 1
+#compile "${THIS_ABS_DIR}/sql/byname_constargs.sql" "${THIS_ABS_DIR}/src/byname_sql_constargs.rs" 0 1
+#compile "${THIS_ABS_DIR}/sql/byname_constargs_inlined.sql" "${THIS_ABS_DIR}/src/byname_sql_constargs_inlined.rs" 0 1
+compile "${THIS_ABS_DIR}/sql/byname_constargs_inlined_minimized.sql" "${THIS_ABS_DIR}/src/byname_sql_incremental_constargs_inlined_minimized.rs" 1 1
+#compile "${THIS_ABS_DIR}/sql/byname_constargs.sql" "${THIS_ABS_DIR}/src/byname_sql_incremental_constargs.rs" 1 1
+#compile "${THIS_ABS_DIR}/sql/byname_constargs_inlined.sql" "${THIS_ABS_DIR}/src/byname_sql_incremental_constargs_inlined.rs" 1 1
+#compile "${THIS_ABS_DIR}/sql/byname_max.sql" "${THIS_ABS_DIR}/src/byname_max_sql.rs" 0 1
+#compile "${THIS_ABS_DIR}/sql/byname_max.sql" "${THIS_ABS_DIR}/src/byname_max_sql_incremental.rs" 1 1
 #compile "${THIS_ABS_DIR}/sql/warehouse_ytd.sql" "${THIS_ABS_DIR}/src/warehouse_ytd_sql.rs" 0 1
 #compile "${THIS_ABS_DIR}/sql/warehouse_ytd.sql" "${THIS_ABS_DIR}/src/warehouse_ytd_sql_incremental.rs" 1 1

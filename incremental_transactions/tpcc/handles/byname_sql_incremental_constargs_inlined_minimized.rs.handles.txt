@@ -1,0 +1,1 @@
+(in_warehouse_static, in_warehouse, in_district_static, in_district_next_id, in_district_ytd, in_customer, in_transaction_parameters, out_cust_byname_inlined_minimized, out_cust_byname_inlined)

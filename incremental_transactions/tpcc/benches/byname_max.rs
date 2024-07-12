@@ -33,7 +33,7 @@ fn byname(c: &mut Criterion) {
     let num_workers = 1;
     // Input the initial size of the customer relation and the number of updates
     let base_size = 3000; // Number of customers per district
-    let update_sizes = vec![1, 2, 4, 8, 16, 32, 64, 128, 256, 512];
+    let update_sizes = vec![0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512];
     let inputs: Vec<_> = update_sizes
         .into_iter()
         .map(|updates_size| ExperimentInput {
